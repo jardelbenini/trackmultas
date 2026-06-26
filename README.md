@@ -84,6 +84,36 @@ trackmultas/
 
 ---
 
+## 🗄️ Banco de Dados
+
+O projeto utiliza **MySQL** (ou MariaDB) como banco de dados relacional. O script de criação completo está localizado em `database/script.sql` e cria o banco de dados chamado **trackmultas** com charset `utf8mb4`.
+
+### Principais Tabelas
+
+| Tabela | Descrição |
+|---|---|
+| `empresas` | Cadastro de empresas/transportadoras |
+| `setores` | Setores internos (Motorista, Outros) |
+| `status_motoristas` | Status do motorista (Ativo, Afastado, Desligado, Não Admitido) |
+| `motoristas` | Cadastro de motoristas vinculados a empresa, setor e status |
+| `tipos_veiculos` | Tipos de veículos (Cavalo, Carreta, Carro, Caminhoneta, Moto) |
+| `veiculos` | Cadastro de veículos com placa e renavam únicos |
+| `orgaos` | Órgãos autuadores (Detran, PRF, DNIT, Prefeitura, ANTT) |
+| `motivos_infracoes` | Motivos das infrações com código e pontuação |
+| `responsabilidades` | Responsabilidade pela multa (Motorista, Empresa, Compartilhada, Embarcador) |
+| `status_andamento_multa` | Etapas de andamento da multa |
+| `status_pagamento` | Status de pagamento (Pago, A Pagar, Cancelada, etc.) |
+| `multas` | Tabela principal de multas com todos os vínculos |
+
+### Principais Relacionamentos
+
+- **Motoristas** → pertencem a uma `empresa`, um `setor` e possuem um `status`
+- **Veículos** → possuem um `tipo de veículo`
+- **Multas** → vinculadas a um `motorista`, `veículo`, `órgão autuador`, `motivo de infração`, `responsabilidade`, `status do motorista`, `status de andamento` e `status de pagamento`
+- **Multa de Origem** (`multa_origem_id`) → permite vincular uma segunda multa à multa original. Esse campo é utilizado quando uma infração gera desdobramentos (por exemplo, uma multa NIC que resulta em nova penalidade), mantendo a rastreabilidade entre elas.
+
+---
+
 ## 🚀 Como Executar
 
 ### Pré-requisitos
