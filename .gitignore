@@ -1,0 +1,29 @@
+# Ambiente
+.env
+.env.local
+.env.*.local
+
+# Dependências
+/vendor/
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Sistema operacional
+Thumbs.db
+.DS_Store
+Desktop.ini
+
+# Arquivos temporários
+*.tmp
+*.log
+*.cache
+*.swp
+*~
+
+# Pasta de uploads (se houver no futuro)
+/public/uploads/*
+!/public/uploads/.gitkeep
