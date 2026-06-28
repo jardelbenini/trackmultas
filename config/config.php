@@ -7,4 +7,4 @@ define('DB_USER', 'root');
 define('DB_PASS', '');
 
 // URL base do sistema
-define('BASE_URL', 'http://localhost/trackmultas/public/');
+define('BASE_URL', 'http://localhost/TrackMultas/public/');

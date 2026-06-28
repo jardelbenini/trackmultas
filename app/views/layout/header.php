@@ -32,19 +32,43 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
+                    <?php 
+                        $active = isset($_GET['controller']) ? $_GET['controller'] : 'home'; 
+                    ?>
                     <li class="nav-item">
-                        <a class="nav-link active" href="<?php echo BASE_URL; ?>">
+                        <a class="nav-link <?php echo $active === 'home' ? 'active' : ''; ?>" href="<?php echo BASE_URL; ?>">
                             <i class="bi bi-house-door me-1"></i>Início
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle <?php echo in_array($active, ['empresas', 'motoristas', 'veiculos']) ? 'active' : ''; ?>"
+                           href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-people me-1"></i>Cadastros
                         </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li>
+                                <a class="dropdown-item <?php echo $active === 'empresas' ? 'active' : ''; ?>"
+                                   href="<?php echo BASE_URL; ?>index.php?controller=empresas&action=index">
+                                    <i class="bi bi-building me-2"></i>Empresas
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item <?php echo $active === 'motoristas' ? 'active' : ''; ?>"
+                                   href="<?php echo BASE_URL; ?>index.php?controller=motoristas&action=index">
+                                    <i class="bi bi-person me-2"></i>Motoristas
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item <?php echo $active === 'veiculos' ? 'active' : ''; ?>"
+                                   href="<?php echo BASE_URL; ?>index.php?controller=veiculos&action=index">
+                                    <i class="bi bi-truck me-2"></i>Veículos
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled" href="#">
-                            <i class="bi bi-exclamation-triangle me-1"></i>Multas
+                            <i class="bi bi-exclamation-triangle me-1"></i>Controle de Multas
                         </a>
                     </li>
                     <li class="nav-item">
@@ -56,3 +80,17 @@
             </div>
         </div>
     </nav>
+
+    <!-- Exibição de Mensagens (Alerts) -->
+    <?php if (isset($_SESSION['mensagem'])): ?>
+        <div class="container mt-3">
+            <div class="alert alert-<?php echo isset($_SESSION['tipo_mensagem']) ? $_SESSION['tipo_mensagem'] : 'info'; ?> alert-dismissible fade show" role="alert">
+                <?php echo $_SESSION['mensagem']; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        <?php 
+            unset($_SESSION['mensagem']);
+            unset($_SESSION['tipo_mensagem']);
+        ?>
+    <?php endif; ?>

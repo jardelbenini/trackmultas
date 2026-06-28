@@ -1,44 +1,55 @@
 <?php
+session_start();
 
 /**
- * TrackMultas - Roteador Principal
- *
- * Ponto de entrada do sistema. Carrega as configurações,
- * interpreta a URL e direciona para o controller adequado.
+ * TrackMultas - Roteador Principal (Etapa 3)
  */
 
 // Carrega configurações
 require_once __DIR__ . '/../config/config.php';
 
-// Carrega os models
+// Carrega os models auxiliares (Database é a base)
 require_once __DIR__ . '/../app/models/Database.php';
 
-// Obtém a URL requisitada
-$url = isset($_GET['url']) ? $_GET['url'] : '';
-$url = rtrim($url, '/');
-$url = filter_var($url, FILTER_SANITIZE_URL);
-$url = explode('/', $url);
+// Obtém o controller e a action da URL
+$controllerParam = isset($_GET['controller']) ? $_GET['controller'] : 'home';
+$actionParam = isset($_GET['action']) ? $_GET['action'] : 'index';
 
-// Define o controller padrão
-$controllerName = !empty($url[0]) ? ucfirst($url[0]) . 'Controller' : 'HomeController';
-$methodName     = isset($url[1]) ? $url[1] : 'index';
-$params         = array_slice($url, 2);
+// Mapeamento de controllers permitidos
+$allowedControllers = [
+    'home'       => 'HomeController',
+    'empresas'   => 'EmpresaController',
+    'motoristas' => 'MotoristaController',
+    'veiculos'   => 'VeiculoController'
+];
 
-// Caminho do controller
-$controllerFile = __DIR__ . '/../app/controllers/' . $controllerName . '.php';
+// Ações permitidas
+$allowedActions = ['index', 'create', 'store', 'edit', 'update', 'delete'];
 
-// Verifica se o controller existe
-if (file_exists($controllerFile)) {
-    require_once $controllerFile;
+if (array_key_exists($controllerParam, $allowedControllers)) {
+    $controllerName = $allowedControllers[$controllerParam];
+    $controllerFile = __DIR__ . '/../app/controllers/' . $controllerName . '.php';
 
-    $controller = new $controllerName();
+    if (file_exists($controllerFile)) {
+        require_once $controllerFile;
+        $controller = new $controllerName();
 
-    // Verifica se o método existe no controller
-    if (method_exists($controller, $methodName)) {
-        call_user_func_array([$controller, $methodName], $params);
+        if (in_array($actionParam, $allowedActions) && method_exists($controller, $actionParam)) {
+            // Se precisar passar o ID
+            $id = isset($_GET['id']) ? $_GET['id'] : null;
+            
+            if (in_array($actionParam, ['edit', 'update', 'delete'])) {
+                $controller->$actionParam($id);
+            } else {
+                $controller->$actionParam();
+            }
+        } else {
+            http_response_code(404);
+            echo '<h1>Erro 404</h1><p>Ação não encontrada ou não permitida.</p>';
+        }
     } else {
         http_response_code(404);
-        echo '<h1>Erro 404</h1><p>Método não encontrado.</p>';
+        echo '<h1>Erro 404</h1><p>Controlador não encontrado.</p>';
     }
 } else {
     http_response_code(404);

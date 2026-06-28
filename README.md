@@ -150,3 +150,10 @@ Este projeto é de uso interno e educacional.
 ---
 
 > Desenvolvido com ❤️ para facilitar a gestão de multas em transportadoras.
+
+---
+
+## 🚀 Histórico do Projeto
+
+**Etapa 3:**
+Na terceira etapa do projeto foi implementado o módulo de Cadastros, com CRUD de empresas, motoristas e veículos, utilizando PHP, MySQL, Bootstrap e padrão MVC.
