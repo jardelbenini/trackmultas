@@ -13,6 +13,7 @@
                     <thead class="table-light">
                         <tr>
                             <th>Auto de Infração</th>
+                            <th>Empresa</th>
                             <th>Motorista</th>
                             <th>Placa</th>
                             <th>Data da Infração</th>
@@ -34,6 +35,7 @@
                             <?php foreach ($multas as $m): ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($m['auto_infracao']); ?></td>
+                                    <td><?php echo htmlspecialchars($m['empresa_nome'] ?? '-'); ?></td>
                                     <td><?php echo htmlspecialchars($m['motorista_nome']); ?></td>
                                     <td><?php echo htmlspecialchars($m['veiculo_placa']); ?></td>
                                     <td><?php echo $m['data_infracao'] ? date('d/m/Y', strtotime($m['data_infracao'])) : '-'; ?></td>

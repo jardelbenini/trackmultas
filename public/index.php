@@ -20,6 +20,7 @@ $allowedControllers = [
     'home'              => 'HomeController',
     'empresas'          => 'EmpresaController',
     'motoristas'        => 'MotoristaController',
+    'setores'           => 'SetorController',
     'veiculos'          => 'VeiculoController',
     'multas'            => 'MultaController',
     'orgaos'            => 'OrgaoController',

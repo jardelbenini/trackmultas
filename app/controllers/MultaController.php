@@ -9,10 +9,12 @@ require_once __DIR__ . '/../models/Responsabilidade.php';
 require_once __DIR__ . '/../models/StatusMotorista.php';
 require_once __DIR__ . '/../models/StatusAndamentoMulta.php';
 require_once __DIR__ . '/../models/StatusPagamento.php';
+require_once __DIR__ . '/../models/Empresa.php';
 
 class MultaController
 {
     private $model;
+    private $empresaModel;
     private $motoristaModel;
     private $veiculoModel;
     private $orgaoModel;
@@ -25,6 +27,7 @@ class MultaController
     public function __construct()
     {
         $this->model = new Multa();
+        $this->empresaModel = new Empresa();
         $this->motoristaModel = new Motorista();
         $this->veiculoModel = new Veiculo();
         $this->orgaoModel = new Orgao();
@@ -50,6 +53,7 @@ class MultaController
     private function loadSelects()
     {
         return [
+            'empresas'          => $this->empresaModel->listar(),
             'motoristas'        => $this->motoristaModel->listar(),
             'veiculos'          => $this->veiculoModel->listar(),
             'orgaos'            => $this->orgaoModel->listar(),
@@ -262,6 +266,7 @@ class MultaController
         $resultadoFinanceiro = $valorPagoMotorista - $valorPagoEmpresa;
 
         return [
+            'empresa_id'             => $_POST['empresa_id'] ?? '',
             'motorista_id'           => $_POST['motorista_id'] ?? '',
             'veiculo_id'             => $_POST['veiculo_id'] ?? '',
             'auto_infracao'          => trim($_POST['auto_infracao'] ?? ''),
@@ -294,7 +299,7 @@ class MultaController
     private function validateRequired($dados)
     {
         $requiredFields = [
-            'motorista_id', 'veiculo_id', 'auto_infracao', 'data_infracao', 
+            'empresa_id', 'motorista_id', 'veiculo_id', 'auto_infracao', 'data_infracao', 
             'hora_infracao', 'local_multa', 'cidade', 'estado', 'orgao_id', 
             'motivo_infracao_id', 'responsabilidade_id', 'status_motorista_id', 
             'status_andamento_id', 'status_pagamento_id'

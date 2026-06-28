@@ -56,6 +56,10 @@
         </div>
         <div class="card-body">
             <div class="row mb-3">
+                <div class="col-sm-3"><strong>Empresa:</strong></div>
+                <div class="col-sm-9"><?php echo htmlspecialchars($multa['empresa_nome'] ?? '-'); ?></div>
+            </div>
+            <div class="row mb-3">
                 <div class="col-sm-3"><strong>Motorista:</strong></div>
                 <div class="col-sm-9"><?php echo htmlspecialchars($multa['motorista_nome']); ?></div>
             </div>

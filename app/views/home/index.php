@@ -14,11 +14,6 @@
                         Controle motoristas, veículos, infrações e acompanhe tudo
                         em um dashboard inteligente.
                     </p>
-                    <div class="d-flex justify-content-center gap-3 flex-wrap">
-                        <span class="badge badge-tech"><i class="bi bi-filetype-php me-1"></i>PHP MVC</span>
-                        <span class="badge badge-tech"><i class="bi bi-database me-1"></i>MySQL</span>
-                        <span class="badge badge-tech"><i class="bi bi-bootstrap me-1"></i>Bootstrap 5</span>
-                    </div>
                 </div>
             </div>
         </div>

@@ -14,6 +14,7 @@ class Multa
     {
         $sql = "SELECT 
                     m.*, 
+                    e.nome AS empresa_nome,
                     mot.nome AS motorista_nome,
                     v.placa AS veiculo_placa,
                     o.nome AS orgao_nome,
@@ -25,6 +26,7 @@ class Multa
                     sp.cor AS status_pagamento_cor,
                     sm.nome AS status_motorista_nome
                 FROM multas m
+                LEFT JOIN empresas e ON m.empresa_id = e.id
                 JOIN motoristas mot ON m.motorista_id = mot.id
                 JOIN veiculos v ON m.veiculo_id = v.id
                 JOIN orgaos o ON m.orgao_id = o.id
@@ -42,6 +44,7 @@ class Multa
     {
         $sql = "SELECT 
                     m.*, 
+                    e.nome AS empresa_nome,
                     mot.nome AS motorista_nome,
                     v.placa AS veiculo_placa,
                     v.marca AS veiculo_marca,
@@ -56,6 +59,7 @@ class Multa
                     sp.cor AS status_pagamento_cor,
                     sm.nome AS status_motorista_nome
                 FROM multas m
+                LEFT JOIN empresas e ON m.empresa_id = e.id
                 JOIN motoristas mot ON m.motorista_id = mot.id
                 JOIN veiculos v ON m.veiculo_id = v.id
                 JOIN orgaos o ON m.orgao_id = o.id
@@ -73,13 +77,13 @@ class Multa
     public function cadastrar($dados)
     {
         $sql = "INSERT INTO multas (
-                    motorista_id, veiculo_id, auto_infracao, data_infracao, hora_infracao,
+                    empresa_id, motorista_id, veiculo_id, auto_infracao, data_infracao, hora_infracao,
                     local_multa, cidade, estado, orgao_id, motivo_infracao_id, responsabilidade_id,
                     status_motorista_id, status_andamento_id, prazo_indicar_condutor, valor_real,
                     motorista_pagou, valor_acordado, valor_pago_motorista, valor_pago_empresa, status_pagamento_id,
                     data_vencimento, data_pagamento, data_acerto_motorista, desconto_pagamento, resultado_financeiro, tratativa
                 ) VALUES (
-                    :motorista_id, :veiculo_id, :auto_infracao, :data_infracao, :hora_infracao,
+                    :empresa_id, :motorista_id, :veiculo_id, :auto_infracao, :data_infracao, :hora_infracao,
                     :local_multa, :cidade, :estado, :orgao_id, :motivo_infracao_id, :responsabilidade_id,
                     :status_motorista_id, :status_andamento_id, :prazo_indicar_condutor, :valor_real,
                     :motorista_pagou, :valor_acordado, :valor_pago_motorista, :valor_pago_empresa, :status_pagamento_id,
@@ -88,6 +92,7 @@ class Multa
                 
         $stmt = $this->pdo->prepare($sql);
         $success = $stmt->execute([
+            ':empresa_id'             => $dados['empresa_id'] ?: null,
             ':motorista_id'           => $dados['motorista_id'],
             ':veiculo_id'             => $dados['veiculo_id'],
             ':auto_infracao'          => $dados['auto_infracao'],
@@ -125,6 +130,7 @@ class Multa
     public function atualizar($id, $dados)
     {
         $sql = "UPDATE multas SET 
+                    empresa_id = :empresa_id,
                     motorista_id = :motorista_id,
                     veiculo_id = :veiculo_id,
                     auto_infracao = :auto_infracao,
@@ -156,6 +162,7 @@ class Multa
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([
             ':id'                     => $id,
+            ':empresa_id'             => $dados['empresa_id'] ?: null,
             ':motorista_id'           => $dados['motorista_id'],
             ':veiculo_id'             => $dados['veiculo_id'],
             ':auto_infracao'          => $dados['auto_infracao'],

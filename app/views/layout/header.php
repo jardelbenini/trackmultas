@@ -44,9 +44,9 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle <?php echo in_array($active, ['empresas', 'motoristas', 'veiculos']) ? 'active' : ''; ?>"
+                        <a class="nav-link dropdown-toggle <?php echo in_array($active, ['empresas', 'motoristas', 'setores', 'veiculos']) ? 'active' : ''; ?>"
                            href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-people me-1"></i>Cadastros
+                            <i class="bi bi-folder me-1"></i>Cadastros
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark">
                             <li>
@@ -59,6 +59,12 @@
                                 <a class="dropdown-item <?php echo $active === 'motoristas' ? 'active' : ''; ?>"
                                    href="<?php echo BASE_URL; ?>index.php?controller=motoristas&action=index">
                                     <i class="bi bi-person me-2"></i>Motoristas
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item <?php echo $active === 'setores' ? 'active' : ''; ?>"
+                                   href="<?php echo BASE_URL; ?>index.php?controller=setores&action=index">
+                                    <i class="bi bi-diagram-3 me-2"></i>Setores
                                 </a>
                             </li>
                             <li>

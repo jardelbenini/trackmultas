@@ -89,24 +89,35 @@
 
                         <h5 class="border-bottom pb-2 mb-3 text-primary">Envolvidos</h5>
                         <div class="row g-3 mb-4">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label for="motorista_id" class="form-label">Motorista <span class="text-danger">*</span></label>
+                                <select class="form-select" id="motorista_id" name="motorista_id" required>
+                                    <option value="">Selecione...</option>
+                                    <?php foreach ($motoristas as $motorista): ?>
+                                        <option value="<?php echo $motorista['id']; ?>" data-empresa-id="<?php echo $motorista['empresa_id']; ?>" <?php echo (isset($multa['motorista_id']) && $multa['motorista_id'] == $motorista['id']) ? 'selected' : ''; ?>>
+                                            <?php echo htmlspecialchars($motorista['nome'] . (!empty($motorista['matricula']) ? ' (Matrícula: ' . $motorista['matricula'] . ')' : '')); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="empresa_id" class="form-label">Empresa <span class="text-danger">*</span></label>
+                                <select class="form-select" id="empresa_id" name="empresa_id" required>
+                                    <option value="">Selecione...</option>
+                                    <?php foreach ($empresas as $empresa): ?>
+                                        <option value="<?php echo $empresa['id']; ?>" <?php echo (isset($multa['empresa_id']) && $multa['empresa_id'] == $empresa['id']) ? 'selected' : ''; ?>>
+                                            <?php echo htmlspecialchars($empresa['nome']); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
                                 <label for="veiculo_id" class="form-label">Veículo / Placa <span class="text-danger">*</span></label>
                                 <select class="form-select" id="veiculo_id" name="veiculo_id" required>
                                     <option value="">Selecione...</option>
                                     <?php foreach ($veiculos as $veiculo): ?>
                                         <option value="<?php echo $veiculo['id']; ?>" <?php echo (isset($multa['veiculo_id']) && $multa['veiculo_id'] == $veiculo['id']) ? 'selected' : ''; ?>>
                                             <?php echo htmlspecialchars($veiculo['placa'] . ' - ' . $veiculo['marca'] . ' ' . $veiculo['modelo']); ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="motorista_id" class="form-label">Motorista <span class="text-danger">*</span></label>
-                                <select class="form-select" id="motorista_id" name="motorista_id" required>
-                                    <option value="">Selecione...</option>
-                                    <?php foreach ($motoristas as $motorista): ?>
-                                        <option value="<?php echo $motorista['id']; ?>" <?php echo (isset($multa['motorista_id']) && $multa['motorista_id'] == $motorista['id']) ? 'selected' : ''; ?>>
-                                            <?php echo htmlspecialchars($motorista['nome'] . (!empty($motorista['matricula']) ? ' (Matrícula: ' . $motorista['matricula'] . ')' : '')); ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
@@ -653,6 +664,29 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicialização
     applyMaskCurrency();
     checkMotoristaPagou();
+
+    // Autopreencher empresa ao selecionar motorista
+    const selectMotorista = document.getElementById('motorista_id');
+    const selectEmpresa = document.getElementById('empresa_id');
+    if (selectMotorista && selectEmpresa) {
+        selectMotorista.addEventListener('change', function() {
+            const motoristaId = this.value;
+            if (!motoristaId) return;
+            
+            const selectedOption = this.querySelector('option[value="' + motoristaId + '"]');
+            if (selectedOption) {
+                const empresaId = selectedOption.getAttribute('data-empresa-id');
+                if (empresaId) {
+                    if (selectEmpresa.tomselect) {
+                        selectEmpresa.tomselect.setValue(empresaId);
+                    } else {
+                        selectEmpresa.value = empresaId;
+                    }
+                }
+            }
+        });
+    }
+
     if (parseInt(inputQtdParcelas.value) > 0) {
         bindParcelaEvents();
     }
