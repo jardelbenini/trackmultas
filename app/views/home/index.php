@@ -1,6 +1,6 @@
     <!-- Hero Section -->
     <section class="hero-section">
-        <div class="container">
+        <div class="container-fluid px-4">
             <div class="row justify-content-center">
                 <div class="col-lg-8 text-center">
                     <div class="hero-icon-wrapper mb-4">
@@ -26,7 +26,7 @@
 
     <!-- Módulos Section -->
     <section class="modules-section py-5">
-        <div class="container">
+        <div class="container-fluid px-4">
             <div class="text-center mb-5">
                 <h2 class="section-title fw-bold">Módulos do Sistema</h2>
                 <p class="text-muted-custom">Funcionalidades planejadas para o TrackMultas</p>
@@ -100,7 +100,7 @@
 
     <!-- Aviso de Desenvolvimento -->
     <section class="dev-notice-section py-4">
-        <div class="container">
+        <div class="container-fluid px-4">
             <div class="dev-notice">
                 <div class="d-flex align-items-center justify-content-center gap-3 flex-wrap">
                     <div class="dev-pulse"></div>

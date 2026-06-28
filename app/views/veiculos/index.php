@@ -1,4 +1,4 @@
-<div class="container py-4">
+<div class="container-fluid px-4 py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Veículos</h2>
         <a href="<?php echo BASE_URL; ?>index.php?controller=veiculos&action=create" class="btn btn-primary">
@@ -18,7 +18,7 @@
                             <th>Marca</th>
                             <th>Modelo</th>
                             <th>Ano de Fabricação</th>
-                            <th class="text-end">Ações</th>
+                            <th class="text-center" style="width: 1%; white-space: nowrap;">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,7 +35,7 @@
                                     <td><?php echo htmlspecialchars($veiculo['marca'] ?? '-'); ?></td>
                                     <td><?php echo htmlspecialchars($veiculo['modelo'] ?? '-'); ?></td>
                                     <td><?php echo htmlspecialchars($veiculo['ano_fabricacao'] ?? '-'); ?></td>
-                                    <td class="text-end">
+                                    <td class="text-center text-nowrap">
                                         <a href="<?php echo BASE_URL; ?>index.php?controller=veiculos&action=edit&id=<?php echo $veiculo['id']; ?>" class="btn btn-sm btn-outline-primary">
                                             <i class="bi bi-pencil"></i> Editar
                                         </a>

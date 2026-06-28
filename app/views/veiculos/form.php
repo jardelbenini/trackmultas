@@ -1,4 +1,4 @@
-<div class="container py-4">
+<div class="container-fluid px-4 py-4">
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <div class="card shadow-sm">

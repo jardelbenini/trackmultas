@@ -77,12 +77,27 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ========================================
-    // Placa uppercase automático
+    // Converter todos os campos de texto para UPPERCASE
     // ========================================
-    document.querySelectorAll('.text-uppercase').forEach(function (input) {
-        input.addEventListener('input', function (e) {
+    document.addEventListener('input', function(e) {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+            const type = e.target.getAttribute('type');
+            // Ignora campos onde maiúsculo não faz sentido ou prejudica
+            if (type === 'email' || type === 'password' || type === 'url' || type === 'hidden' || type === 'number' || type === 'date' || type === 'time' || type === 'color' || type === 'file') {
+                return;
+            }
+            
+            // Verifica se o input tem uma máscara de data ou algo do tipo
+            // Se for apenas texto ou textarea, converte para maiúsculo mantendo o cursor na posição correta
+            const start = e.target.selectionStart;
+            const end = e.target.selectionEnd;
             e.target.value = e.target.value.toUpperCase();
-        });
+            
+            // Restaura o cursor para não pular para o final ao digitar no meio do texto
+            if (e.target.type === 'text' || e.target.type === 'search' || e.target.tagName === 'TEXTAREA') {
+                e.target.setSelectionRange(start, end);
+            }
+        }
     });
 
     // ========================================

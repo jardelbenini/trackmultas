@@ -1,4 +1,4 @@
-<div class="container py-4">
+<div class="container-fluid px-4 py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Motoristas</h2>
         <a href="<?php echo BASE_URL; ?>index.php?controller=motoristas&action=create" class="btn btn-primary">
@@ -19,7 +19,7 @@
                             <th>Setor</th>
                             <th>Status</th>
                             <th>Data de Admissão</th>
-                            <th class="text-end">Ações</th>
+                            <th class="text-center" style="width: 1%; white-space: nowrap;">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,7 +37,7 @@
                                     <td><?php echo htmlspecialchars($mot['setor_nome']); ?></td>
                                     <td><?php echo htmlspecialchars($mot['status_nome']); ?></td>
                                     <td><?php echo $mot['data_admissao'] ? date('d/m/Y', strtotime($mot['data_admissao'])) : '-'; ?></td>
-                                    <td class="text-end">
+                                    <td class="text-center text-nowrap">
                                         <a href="<?php echo BASE_URL; ?>index.php?controller=motoristas&action=edit&id=<?php echo $mot['id']; ?>" class="btn btn-sm btn-outline-primary">
                                             <i class="bi bi-pencil"></i> Editar
                                         </a>

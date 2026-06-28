@@ -1,4 +1,4 @@
-<div class="container py-4">
+<div class="container-fluid px-4 py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Empresas</h2>
         <a href="<?php echo BASE_URL; ?>index.php?controller=empresas&action=create" class="btn btn-primary">
@@ -15,7 +15,7 @@
                             <th>Nome</th>
                             <th>CNPJ</th>
                             <th>Data de Cadastro</th>
-                            <th class="text-end">Ações</th>
+                            <th class="text-center" style="width: 1%; white-space: nowrap;">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,7 +29,7 @@
                                     <td><?php echo htmlspecialchars($emp['nome']); ?></td>
                                     <td><?php echo !empty($emp['cnpj']) ? htmlspecialchars($emp['cnpj']) : '-'; ?></td>
                                     <td><?php echo date('d/m/Y', strtotime($emp['created_at'])); ?></td>
-                                    <td class="text-end">
+                                    <td class="text-center text-nowrap">
                                         <a href="<?php echo BASE_URL; ?>index.php?controller=empresas&action=edit&id=<?php echo $emp['id']; ?>" class="btn btn-sm btn-outline-primary">
                                             <i class="bi bi-pencil"></i> Editar
                                         </a>

@@ -17,14 +17,21 @@ $actionParam = isset($_GET['action']) ? $_GET['action'] : 'index';
 
 // Mapeamento de controllers permitidos
 $allowedControllers = [
-    'home'       => 'HomeController',
-    'empresas'   => 'EmpresaController',
-    'motoristas' => 'MotoristaController',
-    'veiculos'   => 'VeiculoController'
+    'home'              => 'HomeController',
+    'empresas'          => 'EmpresaController',
+    'motoristas'        => 'MotoristaController',
+    'veiculos'          => 'VeiculoController',
+    'multas'            => 'MultaController',
+    'orgaos'            => 'OrgaoController',
+    'motivos_infracoes' => 'MotivoInfracaoController',
+    'categorias_infracoes' => 'CategoriaInfracaoController',
+    'responsabilidades' => 'ResponsabilidadeController',
+    'status_andamento'  => 'StatusAndamentoController',
+    'status_pagamento'  => 'StatusPagamentoController'
 ];
 
 // Ações permitidas
-$allowedActions = ['index', 'create', 'store', 'edit', 'update', 'delete'];
+$allowedActions = ['index', 'create', 'store', 'show', 'edit', 'update', 'delete', 'check_codigo', 'get_details'];
 
 if (array_key_exists($controllerParam, $allowedControllers)) {
     $controllerName = $allowedControllers[$controllerParam];
@@ -38,7 +45,7 @@ if (array_key_exists($controllerParam, $allowedControllers)) {
             // Se precisar passar o ID
             $id = isset($_GET['id']) ? $_GET['id'] : null;
             
-            if (in_array($actionParam, ['edit', 'update', 'delete'])) {
+            if (in_array($actionParam, ['show', 'edit', 'update', 'delete'])) {
                 $controller->$actionParam($id);
             } else {
                 $controller->$actionParam();
