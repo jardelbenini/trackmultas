@@ -12,6 +12,8 @@
                 <table class="table table-hover mb-0">
                     <thead class="table-light">
                         <tr>
+                            <th style="width: 15%;">Código</th>
+                            <th style="width: 15%;">Sigla</th>
                             <th>Nome do Órgão</th>
                             <th class="text-center" style="width: 1%; white-space: nowrap;">Ações</th>
                         </tr>
@@ -19,11 +21,13 @@
                     <tbody>
                         <?php if (empty($orgaos)): ?>
                             <tr>
-                                <td colspan="3" class="text-center py-4">Nenhum órgão encontrado.</td>
+                                <td colspan="4" class="text-center py-4">Nenhum órgão encontrado.</td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($orgaos as $orgao): ?>
                                 <tr>
+                                    <td><?php echo htmlspecialchars($orgao['codigo'] ?? '-'); ?></td>
+                                    <td><?php echo htmlspecialchars($orgao['sigla'] ?? '-'); ?></td>
                                     <td><?php echo htmlspecialchars($orgao['nome']); ?></td>
                                     <td class="text-center text-nowrap">
                                         <a href="<?php echo BASE_URL; ?>index.php?controller=orgaos&action=edit&id=<?php echo $orgao['id']; ?>" class="btn btn-sm btn-outline-primary">

@@ -12,6 +12,16 @@
                     ?>
                     
                     <form action="<?php echo $actionUrl; ?>" method="POST">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="codigo" class="form-label">Código <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="codigo" name="codigo" value="<?php echo isset($orgao['codigo']) ? htmlspecialchars($orgao['codigo']) : ''; ?>" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="sigla" class="form-label">Sigla</label>
+                                <input type="text" class="form-control" id="sigla" name="sigla" value="<?php echo isset($orgao['sigla']) ? htmlspecialchars($orgao['sigla']) : ''; ?>">
+                            </div>
+                        </div>
                         <div class="mb-3">
                             <label for="nome" class="form-label">Nome do Órgão <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="nome" name="nome" value="<?php echo isset($orgao['nome']) ? htmlspecialchars($orgao['nome']) : ''; ?>" required>

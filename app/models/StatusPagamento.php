@@ -23,16 +23,16 @@ class StatusPagamento
         return $stmt->fetch();
     }
 
-    public function cadastrar($nome)
+    public function cadastrar($nome, $cor)
     {
-        $stmt = $this->pdo->prepare("INSERT INTO status_pagamento (nome) VALUES (:nome)");
-        return $stmt->execute([':nome' => $nome]);
+        $stmt = $this->pdo->prepare("INSERT INTO status_pagamento (nome, cor) VALUES (:nome, :cor)");
+        return $stmt->execute([':nome' => $nome, ':cor' => $cor]);
     }
 
-    public function atualizar($id, $nome)
+    public function atualizar($id, $nome, $cor)
     {
-        $stmt = $this->pdo->prepare("UPDATE status_pagamento SET nome = :nome WHERE id = :id");
-        return $stmt->execute([':id' => $id, ':nome' => $nome]);
+        $stmt = $this->pdo->prepare("UPDATE status_pagamento SET nome = :nome, cor = :cor WHERE id = :id");
+        return $stmt->execute([':id' => $id, ':nome' => $nome, ':cor' => $cor]);
     }
 
     public function excluir($id)

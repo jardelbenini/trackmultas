@@ -88,7 +88,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-3"><strong>Prazo para Indicar Condutor:</strong></div>
+                <div class="col-sm-3"><strong>Prazo para Defesa / Indicação do Condutor:</strong></div>
                 <div class="col-sm-9">
                     <?php echo $multa['prazo_indicar_condutor'] ? date('d/m/Y', strtotime($multa['prazo_indicar_condutor'])) : '-'; ?>
                 </div>
@@ -108,7 +108,7 @@
             <div class="row mb-3">
                 <div class="col-sm-3"><strong>Status de Pagamento:</strong></div>
                 <div class="col-sm-9">
-                    <span class="badge bg-info"><?php echo htmlspecialchars($multa['status_pagamento_nome']); ?></span>
+                    <span class="badge <?php echo htmlspecialchars($multa['status_pagamento_cor'] ?? 'bg-info'); ?>"><?php echo htmlspecialchars($multa['status_pagamento_nome']); ?></span>
                 </div>
             </div>
             <div class="row mb-3">
@@ -126,7 +126,7 @@
             </div>
             <?php if ($multa['motorista_pagou']): ?>
             <div class="row mb-3">
-                <div class="col-sm-3"><strong>Valor Acertado:</strong></div>
+                <div class="col-sm-3"><strong>Valor Combinado R$:</strong></div>
                 <div class="col-sm-9 text-primary fw-bold">R$ <?php echo number_format($multa['valor_acordado'] ?? 0, 2, ',', '.'); ?></div>
             </div>
             <?php endif; ?>
@@ -166,7 +166,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-3"><strong>Data Acerto Motorista:</strong></div>
+                <div class="col-sm-3"><strong>Data do Combinado:</strong></div>
                 <div class="col-sm-9"><?php echo $multa['data_acerto_motorista'] ? date('d/m/Y', strtotime($multa['data_acerto_motorista'])) : '-'; ?></div>
             </div>
             

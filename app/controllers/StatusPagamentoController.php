@@ -35,9 +35,10 @@ class StatusPagamentoController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nome = trim($_POST['nome'] ?? '');
+            $cor = $_POST['cor'] ?? 'bg-info';
             
             if (!empty($nome)) {
-                $this->model->cadastrar($nome);
+                $this->model->cadastrar($nome, $cor);
                 $_SESSION['mensagem'] = 'Status de Pagamento cadastrado com sucesso!';
                 $_SESSION['tipo_mensagem'] = 'success';
             } else {
@@ -76,9 +77,10 @@ class StatusPagamentoController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'] ?? null;
             $nome = trim($_POST['nome'] ?? '');
+            $cor = $_POST['cor'] ?? 'bg-info';
 
             if ($id && !empty($nome)) {
-                $this->model->atualizar($id, $nome);
+                $this->model->atualizar($id, $nome, $cor);
                 $_SESSION['mensagem'] = 'Status de Pagamento atualizado com sucesso!';
                 $_SESSION['tipo_mensagem'] = 'success';
             } else {

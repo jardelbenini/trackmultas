@@ -23,20 +23,37 @@ class Orgao
         return $stmt->fetch();
     }
 
+    public function verificarCodigoExistente($codigo, $id = null)
+    {
+        $sql = "SELECT id FROM orgaos WHERE codigo = :codigo";
+        $params = [':codigo' => $codigo];
+        if ($id) {
+            $sql .= " AND id != :id";
+            $params[':id'] = $id;
+        }
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetch() !== false;
+    }
+
     public function cadastrar($dados)
     {
-        $stmt = $this->pdo->prepare("INSERT INTO orgaos (nome) VALUES (:nome)");
+        $stmt = $this->pdo->prepare("INSERT INTO orgaos (codigo, nome, sigla) VALUES (:codigo, :nome, :sigla)");
         return $stmt->execute([
-            ':nome' => $dados['nome']
+            ':codigo' => empty($dados['codigo']) ? null : $dados['codigo'],
+            ':nome'   => $dados['nome'],
+            ':sigla'  => empty($dados['sigla']) ? null : $dados['sigla']
         ]);
     }
 
     public function atualizar($id, $dados)
     {
-        $stmt = $this->pdo->prepare("UPDATE orgaos SET nome = :nome WHERE id = :id");
+        $stmt = $this->pdo->prepare("UPDATE orgaos SET codigo = :codigo, nome = :nome, sigla = :sigla WHERE id = :id");
         return $stmt->execute([
-            ':id'   => $id,
-            ':nome' => $dados['nome']
+            ':id'     => $id,
+            ':codigo' => empty($dados['codigo']) ? null : $dados['codigo'],
+            ':nome'   => $dados['nome'],
+            ':sigla'  => empty($dados['sigla']) ? null : $dados['sigla']
         ]);
     }
 

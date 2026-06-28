@@ -1,13 +1,13 @@
 <?php
-require_once __DIR__ . '/../models/Status de Andamento.php';
+require_once __DIR__ . '/../models/StatusAndamentoMulta.php';
 
-class Status de AndamentoController
+class StatusAndamentoController
 {
     private $model;
 
     public function __construct()
     {
-        $this->model = new Status de Andamento();
+        $this->model = new StatusAndamentoMulta();
     }
 
     public function index()

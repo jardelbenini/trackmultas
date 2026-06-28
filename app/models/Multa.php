@@ -17,10 +17,12 @@ class Multa
                     mot.nome AS motorista_nome,
                     v.placa AS veiculo_placa,
                     o.nome AS orgao_nome,
+                    o.sigla AS orgao_sigla,
                     mi.descricao AS motivo_descricao,
                     r.nome AS responsabilidade_nome,
                     sa.nome AS status_andamento_nome,
                     sp.nome AS status_pagamento_nome,
+                    sp.cor AS status_pagamento_cor,
                     sm.nome AS status_motorista_nome
                 FROM multas m
                 JOIN motoristas mot ON m.motorista_id = mot.id
@@ -45,11 +47,13 @@ class Multa
                     v.marca AS veiculo_marca,
                     v.modelo AS veiculo_modelo,
                     o.nome AS orgao_nome,
+                    o.sigla AS orgao_sigla,
                     mi.descricao AS motivo_descricao,
                     mi.codigo AS motivo_codigo,
                     r.nome AS responsabilidade_nome,
                     sa.nome AS status_andamento_nome,
                     sp.nome AS status_pagamento_nome,
+                    sp.cor AS status_pagamento_cor,
                     sm.nome AS status_motorista_nome
                 FROM multas m
                 JOIN motoristas mot ON m.motorista_id = mot.id

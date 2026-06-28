@@ -44,6 +44,13 @@ class OrgaoController
                 exit;
             }
 
+            if (!empty($_POST['codigo']) && $this->model->verificarCodigoExistente($_POST['codigo'])) {
+                $_SESSION['mensagem'] = 'Já existe um órgão com este código.';
+                $_SESSION['tipo_mensagem'] = 'danger';
+                header('Location: ' . BASE_URL . 'index.php?controller=orgaos&action=create');
+                exit;
+            }
+
             try {
                 $this->model->cadastrar($_POST);
                 $_SESSION['mensagem'] = 'Órgão cadastrado com sucesso.';
@@ -89,6 +96,13 @@ class OrgaoController
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $id) {
             if (empty($_POST['nome'])) {
                 $_SESSION['mensagem'] = 'Preencha o nome do órgão.';
+                $_SESSION['tipo_mensagem'] = 'danger';
+                header('Location: ' . BASE_URL . 'index.php?controller=orgaos&action=edit&id=' . $id);
+                exit;
+            }
+
+            if (!empty($_POST['codigo']) && $this->model->verificarCodigoExistente($_POST['codigo'], $id)) {
+                $_SESSION['mensagem'] = 'Já existe um outro órgão com este código.';
                 $_SESSION['tipo_mensagem'] = 'danger';
                 header('Location: ' . BASE_URL . 'index.php?controller=orgaos&action=edit&id=' . $id);
                 exit;

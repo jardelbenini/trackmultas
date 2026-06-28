@@ -45,7 +45,7 @@
                                             echo !empty($cidadeUf) ? implode('/', $cidadeUf) : '-';
                                         ?>
                                     </td>
-                                    <td><?php echo htmlspecialchars($m['orgao_nome']); ?></td>
+                                    <td><?php echo htmlspecialchars(!empty($m['orgao_sigla']) ? $m['orgao_sigla'] : $m['orgao_nome']); ?></td>
                                     <td>
                                         <span class="d-inline-block text-truncate" style="max-width: 150px;" title="<?php echo htmlspecialchars($m['motivo_descricao']); ?>">
                                             <?php echo htmlspecialchars($m['motivo_descricao']); ?>
@@ -56,7 +56,7 @@
                                         <span class="badge bg-secondary"><?php echo htmlspecialchars($m['status_andamento_nome']); ?></span>
                                     </td>
                                     <td>
-                                        <span class="badge bg-info"><?php echo htmlspecialchars($m['status_pagamento_nome']); ?></span>
+                                        <span class="badge <?php echo htmlspecialchars($m['status_pagamento_cor'] ?? 'bg-info'); ?>"><?php echo htmlspecialchars($m['status_pagamento_nome']); ?></span>
                                     </td>
                                     <td class="text-center text-nowrap">
                                         <a href="<?php echo BASE_URL; ?>index.php?controller=multas&action=show&id=<?php echo $m['id']; ?>" class="btn btn-sm btn-outline-info" title="Ver Detalhes">

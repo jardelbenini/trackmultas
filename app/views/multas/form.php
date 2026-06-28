@@ -34,7 +34,11 @@
                                     <option value="">Selecione...</option>
                                     <?php foreach ($orgaos as $orgao): ?>
                                         <option value="<?php echo $orgao['id']; ?>" <?php echo (isset($multa['orgao_id']) && $multa['orgao_id'] == $orgao['id']) ? 'selected' : ''; ?>>
-                                            <?php echo htmlspecialchars($orgao['nome']); ?>
+                                            <?php 
+                                            $codigoText = !empty($orgao['codigo']) ? $orgao['codigo'] . ' - ' : '';
+                                            $siglaText = !empty($orgao['sigla']) ? ' (' . $orgao['sigla'] . ')' : '';
+                                            echo htmlspecialchars($codigoText . $orgao['nome'] . $siglaText); 
+                                            ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
@@ -145,7 +149,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label for="prazo_indicar_condutor" class="form-label">Prazo Indicar Condutor</label>
+                                <label for="prazo_indicar_condutor" class="form-label">Prazo para Defesa / Indicação do Condutor</label>
                                 <input type="date" class="form-control" id="prazo_indicar_condutor" name="prazo_indicar_condutor" value="<?php echo isset($multa['prazo_indicar_condutor']) ? $multa['prazo_indicar_condutor'] : ''; ?>">
                             </div>
                         </div>
@@ -154,7 +158,7 @@
                         <div class="row g-3 mb-4">
                             <div class="col-md-3">
                                 <label for="valor_real" class="form-label">Valor Real (R$)</label>
-                                <input type="text" class="form-control mask-money" id="valor_real" name="valor_real" value="<?php echo isset($multa['valor_real']) ? number_format($multa['valor_real'], 2, ',', '.') : ''; ?>">
+                                <input type="text" class="form-control mask-money" id="valor_real" name="valor_real" value="<?php echo (isset($multa['valor_real']) && $multa['valor_real'] > 0) ? number_format($multa['valor_real'], 2, ',', '.') : ''; ?>">
                             </div>
                             <div class="col-md-3">
                                 <label for="status_pagamento_id" class="form-label">Status de Pagamento <span class="text-danger">*</span></label>
@@ -176,6 +180,14 @@
                                 <input type="date" class="form-control" id="data_pagamento" name="data_pagamento" max="<?php echo date('Y-m-d'); ?>" value="<?php echo isset($multa['data_pagamento']) ? $multa['data_pagamento'] : ''; ?>">
                             </div>
                             
+                            <div class="col-md-3" id="box_valor_acordado">
+                                <label for="valor_acordado" class="form-label">Valor Combinado R$</label>
+                                <input type="text" class="form-control mask-money" id="valor_acordado" name="valor_acordado" value="<?php echo (isset($multa['valor_acordado']) && $multa['valor_acordado'] > 0) ? number_format($multa['valor_acordado'], 2, ',', '.') : ''; ?>">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="data_acerto_motorista" class="form-label">Data do Combinado</label>
+                                <input type="date" class="form-control" id="data_acerto_motorista" name="data_acerto_motorista" value="<?php echo isset($multa['data_acerto_motorista']) ? $multa['data_acerto_motorista'] : ''; ?>">
+                            </div>
                             <div class="col-md-3">
                                 <label for="motorista_pagou" class="form-label">Motorista pagou?</label>
                                 <select class="form-select" id="motorista_pagou" name="motorista_pagou">
@@ -183,26 +195,19 @@
                                     <option value="1" <?php echo (isset($multa['motorista_pagou']) && $multa['motorista_pagou'] == 1) ? 'selected' : ''; ?>>Sim</option>
                                 </select>
                             </div>
-                            <div class="col-md-3" id="box_valor_acordado" style="display: none;">
-                                <label for="valor_acordado" class="form-label">Valor Acertado (R$)</label>
-                                <input type="text" class="form-control mask-money" id="valor_acordado" name="valor_acordado" value="<?php echo isset($multa['valor_acordado']) ? number_format($multa['valor_acordado'], 2, ',', '.') : ''; ?>" placeholder="0,00">
-                            </div>
                             <div class="col-md-3" id="box_qtd_parcelas" style="display: none;">
                                 <label for="qtd_parcelas" class="form-label">Qtd. Parcelas</label>
                                 <input type="number" class="form-control" id="qtd_parcelas" name="qtd_parcelas" min="0" max="48" value="<?php echo isset($parcelas) ? count($parcelas) : '0'; ?>">
                             </div>
                             <div class="col-md-3">
                                 <label for="valor_pago_motorista" class="form-label">Valor Pago Motorista (R$)</label>
-                                <input type="text" class="form-control bg-light mask-money" id="valor_pago_motorista" name="valor_pago_motorista" value="<?php echo isset($multa['valor_pago_motorista']) ? number_format($multa['valor_pago_motorista'], 2, ',', '.') : ''; ?>">
+                                <input type="text" class="form-control bg-light mask-money" id="valor_pago_motorista" name="valor_pago_motorista" value="<?php echo (isset($multa['valor_pago_motorista']) && $multa['valor_pago_motorista'] > 0) ? number_format($multa['valor_pago_motorista'], 2, ',', '.') : ''; ?>">
                             </div>
                             <div class="col-md-3">
                                 <label for="valor_pago_empresa" class="form-label">Valor Pago Empresa (R$)</label>
-                                <input type="text" class="form-control mask-money" id="valor_pago_empresa" name="valor_pago_empresa" value="<?php echo isset($multa['valor_pago_empresa']) ? number_format($multa['valor_pago_empresa'], 2, ',', '.') : ''; ?>">
+                                <input type="text" class="form-control mask-money" id="valor_pago_empresa" name="valor_pago_empresa" value="<?php echo (isset($multa['valor_pago_empresa']) && $multa['valor_pago_empresa'] > 0) ? number_format($multa['valor_pago_empresa'], 2, ',', '.') : ''; ?>">
                             </div>
-                            <div class="col-md-3">
-                                <label for="data_acerto_motorista" class="form-label">Data Acerto Motorista</label>
-                                <input type="date" class="form-control" id="data_acerto_motorista" name="data_acerto_motorista" value="<?php echo isset($multa['data_acerto_motorista']) ? $multa['data_acerto_motorista'] : ''; ?>">
-                            </div>
+
                             <div class="col-md-3">
                                 <label for="desconto_pagamento" class="form-label">Desconto no Pagamento</label>
                                 <select class="form-select" id="desconto_pagamento" name="desconto_pagamento">
@@ -232,7 +237,7 @@
                                 </div>
                                 
                                 <div id="alerta_soma_parcelas" class="alert alert-warning py-2 px-3 mb-3" style="display: none; font-size: 0.9em;">
-                                    <strong>Atenção:</strong> A soma das parcelas (<span id="soma_atual_parcelas">R$ 0,00</span>) está diferente do Valor Acertado.
+                                    <strong>Atenção:</strong> A soma das parcelas (<span id="soma_atual_parcelas">R$ 0,00</span>) está diferente do Valor Combinado.
                                 </div>
 
                                 <div id="parcelas_list" class="d-flex flex-column gap-2">
@@ -433,7 +438,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function checkMotoristaPagou() {
         if (motoristaPagouSelect.value === '1') {
-            boxValorAcordado.style.display = 'block';
             boxQtdParcelas.style.display = 'block';
             if (parseInt(inputQtdParcelas.value) > 0) {
                 parcelasContainer.style.display = 'flex';
@@ -443,17 +447,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 inputValorPagoMotorista.readOnly = false;
             }
         } else {
-            boxValorAcordado.style.display = 'none';
             boxQtdParcelas.style.display = 'none';
             parcelasContainer.style.display = 'none';
             inputQtdParcelas.value = '0';
             parcelasList.innerHTML = '';
-            inputValorPagoMotorista.readOnly = false;
+            inputValorPagoMotorista.readOnly = true;
             
             // Se o usuário marcou que o motorista NÃO pagou, limpamos os valores
             if (motoristaPagouSelect.value === '0') {
                 inputValorPagoMotorista.value = '';
-                inputValorAcordado.value = '';
             }
         }
     }

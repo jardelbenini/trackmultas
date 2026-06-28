@@ -24,7 +24,11 @@
                         <?php else: ?>
                             <?php foreach ($status_pagamento as $item): ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($item['nome']); ?></td>
+                                    <td>
+                                        <span class="badge <?php echo htmlspecialchars($item['cor']); ?>">
+                                            <?php echo htmlspecialchars($item['nome']); ?>
+                                        </span>
+                                    </td>
                                     <td class="text-center text-nowrap">
                                         <a href="<?php echo BASE_URL; ?>index.php?controller=status_pagamento&action=edit&id=<?php echo $item['id']; ?>" class="btn btn-sm btn-outline-primary" title="Editar">
                                             <i class="bi bi-pencil"></i> Editar
