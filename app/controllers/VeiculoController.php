@@ -169,4 +169,34 @@ class VeiculoController
         header('Location: ' . BASE_URL . 'index.php?controller=veiculos&action=index');
         exit;
     }
+
+    public function check_placa()
+    {
+        header('Content-Type: application/json');
+        $placa = isset($_GET['placa']) ? trim($_GET['placa']) : '';
+        $id = isset($_GET['id']) ? trim($_GET['id']) : null;
+        
+        if (empty($placa)) {
+            echo json_encode(['exists' => false]);
+            return;
+        }
+
+        $existente = $this->model->buscarPorPlaca($placa, $id);
+        echo json_encode(['exists' => $existente ? true : false]);
+    }
+
+    public function check_renavam()
+    {
+        header('Content-Type: application/json');
+        $renavam = isset($_GET['renavam']) ? trim($_GET['renavam']) : '';
+        $id = isset($_GET['id']) ? trim($_GET['id']) : null;
+        
+        if (empty($renavam)) {
+            echo json_encode(['exists' => false]);
+            return;
+        }
+
+        $existente = $this->model->buscarPorRenavam($renavam, $id);
+        echo json_encode(['exists' => $existente ? true : false]);
+    }
 }

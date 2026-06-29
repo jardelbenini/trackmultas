@@ -27,6 +27,32 @@ class Veiculo
         return $stmt->fetch();
     }
 
+    public function buscarPorPlaca($placa, $id = null)
+    {
+        $sql = "SELECT id FROM veiculos WHERE placa = :placa";
+        $params = [':placa' => $placa];
+        if ($id) {
+            $sql .= " AND id != :id";
+            $params[':id'] = $id;
+        }
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetch();
+    }
+
+    public function buscarPorRenavam($renavam, $id = null)
+    {
+        $sql = "SELECT id FROM veiculos WHERE renavam = :renavam";
+        $params = [':renavam' => $renavam];
+        if ($id) {
+            $sql .= " AND id != :id";
+            $params[':id'] = $id;
+        }
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetch();
+    }
+
     public function cadastrar($dados)
     {
         $sql = "INSERT INTO veiculos (placa, renavam, tipo_veiculo_id, marca, modelo, ano_fabricacao)

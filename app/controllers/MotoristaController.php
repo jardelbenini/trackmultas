@@ -199,4 +199,34 @@ class MotoristaController
         header('Location: ' . BASE_URL . 'index.php?controller=motoristas&action=index');
         exit;
     }
+
+    public function check_cpf()
+    {
+        header('Content-Type: application/json');
+        $cpf = isset($_GET['cpf']) ? trim($_GET['cpf']) : '';
+        $id = isset($_GET['id']) ? trim($_GET['id']) : null;
+        
+        if (empty($cpf)) {
+            echo json_encode(['exists' => false]);
+            return;
+        }
+
+        $existente = $this->model->buscarPorCpf($cpf, $id);
+        echo json_encode(['exists' => $existente ? true : false]);
+    }
+
+    public function check_matricula()
+    {
+        header('Content-Type: application/json');
+        $matricula = isset($_GET['matricula']) ? trim($_GET['matricula']) : '';
+        $id = isset($_GET['id']) ? trim($_GET['id']) : null;
+        
+        if (empty($matricula)) {
+            echo json_encode(['exists' => false]);
+            return;
+        }
+
+        $existente = $this->model->buscarPorMatricula($matricula, $id);
+        echo json_encode(['exists' => $existente ? true : false]);
+    }
 }

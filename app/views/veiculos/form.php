@@ -18,12 +18,13 @@
                             <div class="col-md-4">
                                 <label for="placa" class="form-label">Placa <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control text-uppercase" id="placa" name="placa" value="<?php echo isset($veiculo['placa']) ? htmlspecialchars($veiculo['placa']) : ''; ?>" placeholder="ABC-1234" required oninput="maskPlaca(this)">
+                                <div class="invalid-feedback" id="placa-feedback">Esta placa já está cadastrada.</div>
                             </div>
                             
                             <div class="col-md-4">
                                 <label for="renavam" class="form-label">Renavam <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="renavam" name="renavam" value="<?php echo isset($veiculo['renavam']) ? htmlspecialchars($veiculo['renavam']) : ''; ?>" placeholder="Apenas números" required oninput="maskRenavam(this)" onblur="validateRenavamOnBlur(this)">
-                                <div class="invalid-feedback">
+                                <div class="invalid-feedback" id="renavam-feedback">
                                     O Renavam deve conter exatamente 11 números.
                                 </div>
                             </div>
@@ -118,8 +119,87 @@ function maskRenavam(input) {
 function validateRenavamOnBlur(input) {
     if (input.value.length > 0 && input.value.length < 11) {
         input.classList.add('is-invalid');
-    } else {
-        input.classList.remove('is-invalid');
+        const feedback = document.getElementById('renavam-feedback');
+        if (feedback) feedback.innerText = 'O Renavam deve conter exatamente 11 números.';
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const placaInput = document.getElementById('placa');
+    const renavamInput = document.getElementById('renavam');
+    const saveBtn = document.querySelector('button[type="submit"]');
+    const currentId = '<?php echo isset($veiculo['id']) ? $veiculo['id'] : ''; ?>';
+    
+    // Objeto para rastrear estado de erro dos campos
+    const errors = { placa: false, renavam: false };
+    
+    function updateSaveBtn() {
+        saveBtn.disabled = errors.placa || errors.renavam;
+    }
+
+    if(placaInput) {
+        placaInput.addEventListener('blur', function() {
+            const placa = this.value.trim();
+            if(placa.length < 8) { // ABC-1234 or ABC1D23 (7 chars + 1 hyphen)
+                this.classList.remove('is-invalid');
+                errors.placa = false;
+                updateSaveBtn();
+                return;
+            }
+            
+            let url = '<?php echo BASE_URL; ?>index.php?controller=veiculos&action=check_placa&placa=' + encodeURIComponent(placa);
+            if(currentId) {
+                url += '&id=' + encodeURIComponent(currentId);
+            }
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.exists) {
+                        placaInput.classList.add('is-invalid');
+                        errors.placa = true;
+                    } else {
+                        placaInput.classList.remove('is-invalid');
+                        errors.placa = false;
+                    }
+                    updateSaveBtn();
+                })
+                .catch(err => console.error('Erro:', err));
+        });
+    }
+    
+    if(renavamInput) {
+        renavamInput.addEventListener('blur', function() {
+            const renavam = this.value.trim();
+            if(renavam.length < 11) {
+                // The validateRenavamOnBlur already adds is-invalid for length < 11
+                errors.renavam = true;
+                updateSaveBtn();
+                return;
+            }
+            
+            let url = '<?php echo BASE_URL; ?>index.php?controller=veiculos&action=check_renavam&renavam=' + encodeURIComponent(renavam);
+            if(currentId) {
+                url += '&id=' + encodeURIComponent(currentId);
+            }
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const feedback = renavamInput.nextElementSibling;
+                    if(data.exists) {
+                        renavamInput.classList.add('is-invalid');
+                        if (feedback) feedback.innerText = 'Este Renavam já está cadastrado.';
+                        errors.renavam = true;
+                    } else {
+                        renavamInput.classList.remove('is-invalid');
+                        if (feedback) feedback.innerText = 'O Renavam deve conter exatamente 11 números.';
+                        errors.renavam = false;
+                    }
+                    updateSaveBtn();
+                })
+                .catch(err => console.error('Erro:', err));
+        });
+    }
+});
 </script>

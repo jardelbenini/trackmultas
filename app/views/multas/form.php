@@ -212,7 +212,7 @@
                             </div>
                             <div class="col-md-3">
                                 <label for="valor_pago_motorista" class="form-label">Valor Pago Motorista (R$)</label>
-                                <input type="text" class="form-control bg-light mask-money" id="valor_pago_motorista" name="valor_pago_motorista" value="<?php echo (isset($multa['valor_pago_motorista']) && $multa['valor_pago_motorista'] > 0) ? number_format($multa['valor_pago_motorista'], 2, ',', '.') : ''; ?>">
+                                <input type="text" class="form-control mask-money bg-light" id="valor_pago_motorista" name="valor_pago_motorista" value="<?php echo (isset($multa['valor_pago_motorista']) && $multa['valor_pago_motorista'] > 0) ? number_format($multa['valor_pago_motorista'], 2, ',', '.') : ''; ?>" readonly tabindex="-1">
                             </div>
                             <div class="col-md-3">
                                 <label for="valor_pago_empresa" class="form-label">Valor Pago Empresa (R$)</label>
@@ -450,24 +450,24 @@ document.addEventListener('DOMContentLoaded', function() {
     function checkMotoristaPagou() {
         if (motoristaPagouSelect.value === '1') {
             boxQtdParcelas.style.display = 'block';
-            if (parseInt(inputQtdParcelas.value) > 0) {
-                parcelasContainer.style.display = 'flex';
-                inputValorPagoMotorista.readOnly = true; // Bloqueia edição manual se houver parcelas
+            inputQtdParcelas.min = '1';
+            let currentQtd = parseInt(inputQtdParcelas.value) || 0;
+            if (currentQtd < 1) {
+                inputQtdParcelas.value = '1';
+                inputQtdParcelas.dispatchEvent(new Event('input'));
             } else {
-                parcelasContainer.style.display = 'none';
-                inputValorPagoMotorista.readOnly = false;
+                parcelasContainer.style.display = 'flex';
             }
         } else {
             boxQtdParcelas.style.display = 'none';
             parcelasContainer.style.display = 'none';
+            inputQtdParcelas.min = '0';
             inputQtdParcelas.value = '0';
             parcelasList.innerHTML = '';
-            inputValorPagoMotorista.readOnly = true;
             
-            // Se o usuário marcou que o motorista NÃO pagou, limpamos os valores
-            if (motoristaPagouSelect.value === '0') {
-                inputValorPagoMotorista.value = '';
-            }
+            // Limpamos o valor se marcou como Não
+            inputValorPagoMotorista.value = '';
+            atualizarResultadoFinanceiro();
         }
     }
 
@@ -571,7 +571,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const qtd = parseInt(this.value) || 0;
         if (qtd > 0) {
             parcelasContainer.style.display = 'flex';
-            inputValorPagoMotorista.readOnly = true;
             
             const rowsAtuais = document.querySelectorAll('.parcela-row');
             const dataAtuais = [];
@@ -621,7 +620,6 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             parcelasContainer.style.display = 'none';
             parcelasList.innerHTML = '';
-            inputValorPagoMotorista.readOnly = false;
         }
     });
 

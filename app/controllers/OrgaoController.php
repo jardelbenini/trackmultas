@@ -44,7 +44,10 @@ class OrgaoController
                 exit;
             }
 
-            if (!empty($_POST['codigo']) && $this->model->verificarCodigoExistente($_POST['codigo'])) {
+            $codigo = isset($_POST['codigo']) ? trim($_POST['codigo']) : '';
+            $_POST['codigo'] = $codigo;
+
+            if (!empty($codigo) && $this->model->verificarCodigoExistente($codigo)) {
                 $_SESSION['mensagem'] = 'Já existe um órgão com este código.';
                 $_SESSION['tipo_mensagem'] = 'danger';
                 header('Location: ' . BASE_URL . 'index.php?controller=orgaos&action=create');
@@ -101,7 +104,10 @@ class OrgaoController
                 exit;
             }
 
-            if (!empty($_POST['codigo']) && $this->model->verificarCodigoExistente($_POST['codigo'], $id)) {
+            $codigo = isset($_POST['codigo']) ? trim($_POST['codigo']) : '';
+            $_POST['codigo'] = $codigo;
+
+            if (!empty($codigo) && $this->model->verificarCodigoExistente($codigo, $id)) {
                 $_SESSION['mensagem'] = 'Já existe um outro órgão com este código.';
                 $_SESSION['tipo_mensagem'] = 'danger';
                 header('Location: ' . BASE_URL . 'index.php?controller=orgaos&action=edit&id=' . $id);
@@ -138,5 +144,20 @@ class OrgaoController
         }
         header('Location: ' . BASE_URL . 'index.php?controller=orgaos&action=index');
         exit;
+    }
+
+    public function check_codigo()
+    {
+        header('Content-Type: application/json');
+        $codigo = isset($_GET['codigo']) ? trim($_GET['codigo']) : '';
+        $id = isset($_GET['id']) ? trim($_GET['id']) : null;
+        
+        if (empty($codigo)) {
+            echo json_encode(['exists' => false]);
+            return;
+        }
+
+        $existente = $this->model->verificarCodigoExistente($codigo, $id);
+        echo json_encode(['exists' => $existente]);
     }
 }

@@ -20,7 +20,7 @@
                             <div class="col-md-12">
                                 <label for="nome" class="form-label fw-semibold">Nome <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="nome" name="nome" 
-                                       value="<?php echo isset($responsabilidade) ? htmlspecialchars($responsabilidade['nome']) : ''; ?>" required>
+                                       value="<?php echo isset($responsabilidade) ? htmlspecialchars($responsabilidade['nome']) : ''; ?>" required oninput="this.value = this.value.toUpperCase()">
                             </div>
                         </div>
 

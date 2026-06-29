@@ -19,10 +19,10 @@
                             <input type="text" class="form-control" id="nome" name="nome" value="<?php echo isset($tipo['nome']) ? htmlspecialchars($tipo['nome']) : ''; ?>" required oninput="this.value = this.value.toUpperCase()">
                         </div>
 
-                        <div class="d-flex justify-content-between pt-3 border-top">
-                            <a href="<?php echo BASE_URL; ?>index.php?controller=tipos_veiculos&action=index" class="btn btn-light">Cancelar</a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-save me-1"></i> Salvar
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <a href="<?php echo BASE_URL; ?>index.php?controller=tipos_veiculos&action=index" class="btn btn-secondary px-4">Cancelar</a>
+                            <button type="submit" class="btn btn-primary px-4">
+                                Salvar
                             </button>
                         </div>
                     </form>

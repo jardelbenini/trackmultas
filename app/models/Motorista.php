@@ -29,6 +29,32 @@ class Motorista
         return $stmt->fetch();
     }
 
+    public function buscarPorCpf($cpf, $id = null)
+    {
+        $sql = "SELECT id FROM motoristas WHERE cpf = :cpf";
+        $params = [':cpf' => $cpf];
+        if ($id) {
+            $sql .= " AND id != :id";
+            $params[':id'] = $id;
+        }
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetch();
+    }
+
+    public function buscarPorMatricula($matricula, $id = null)
+    {
+        $sql = "SELECT id FROM motoristas WHERE matricula = :matricula";
+        $params = [':matricula' => $matricula];
+        if ($id) {
+            $sql .= " AND id != :id";
+            $params[':id'] = $id;
+        }
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetch();
+    }
+
     public function cadastrar($dados)
     {
         $sql = "INSERT INTO motoristas (empresa_id, matricula, nome, cpf, setor_id, status_id, data_admissao)

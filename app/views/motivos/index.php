@@ -35,14 +35,14 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <?php if ($motivo['gravidade'] === 'Gravíssima'): ?>
-                                            <span class="badge bg-danger">Gravíssima</span>
-                                        <?php elseif ($motivo['gravidade'] === 'Grave'): ?>
-                                            <span class="badge bg-warning text-dark">Grave</span>
-                                        <?php elseif ($motivo['gravidade'] === 'Média'): ?>
-                                            <span class="badge bg-info text-dark">Média</span>
-                                        <?php elseif ($motivo['gravidade'] === 'Leve'): ?>
-                                            <span class="badge bg-success">Leve</span>
+                                        <?php if ($motivo['gravidade'] === 'GRAVÍSSIMA'): ?>
+                                            <span class="badge bg-danger">GRAVÍSSIMA</span>
+                                        <?php elseif ($motivo['gravidade'] === 'GRAVE'): ?>
+                                            <span class="badge bg-warning text-dark">GRAVE</span>
+                                        <?php elseif ($motivo['gravidade'] === 'MÉDIA'): ?>
+                                            <span class="badge bg-info text-dark">MÉDIA</span>
+                                        <?php elseif ($motivo['gravidade'] === 'LEVE'): ?>
+                                            <span class="badge bg-success">LEVE</span>
                                         <?php else: ?>
                                             <span class="badge bg-secondary"><?php echo htmlspecialchars($motivo['gravidade'] ?: '-'); ?></span>
                                         <?php endif; ?>

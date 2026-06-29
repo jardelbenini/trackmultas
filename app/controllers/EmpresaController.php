@@ -196,4 +196,19 @@ class EmpresaController
         header('Location: ' . BASE_URL . 'index.php?controller=empresas&action=index');
         exit;
     }
+
+    public function check_cnpj()
+    {
+        header('Content-Type: application/json');
+        $cnpj = isset($_GET['cnpj']) ? trim($_GET['cnpj']) : '';
+        $id = isset($_GET['id']) ? trim($_GET['id']) : null;
+        
+        if (empty($cnpj)) {
+            echo json_encode(['exists' => false]);
+            return;
+        }
+
+        $existente = $this->model->buscarPorCnpj($cnpj, $id);
+        echo json_encode(['exists' => $existente ? true : false]);
+    }
 }

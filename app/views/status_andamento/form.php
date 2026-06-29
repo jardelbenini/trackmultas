@@ -1,6 +1,6 @@
 <div class="container-fluid px-4 py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2><?php echo isset($responsabilidade) ? 'Editar Status de Andamento' : 'Nova Status de Andamento'; ?></h2>
+        <h2><?php echo isset($responsabilidade) ? 'Editar Status de Andamento' : 'Novo Status de Andamento'; ?></h2>
         <a href="<?php echo BASE_URL; ?>index.php?controller=status_andamento&action=index" class="btn btn-outline-secondary">
             <i class="bi bi-arrow-left"></i> Voltar
         </a>
@@ -20,7 +20,7 @@
                             <div class="col-md-12">
                                 <label for="nome" class="form-label fw-semibold">Nome <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="nome" name="nome" 
-                                       value="<?php echo isset($responsabilidade) ? htmlspecialchars($responsabilidade['nome']) : ''; ?>" required>
+                                       value="<?php echo isset($responsabilidade) ? htmlspecialchars($responsabilidade['nome']) : ''; ?>" required oninput="this.value = this.value.toUpperCase()">
                             </div>
                         </div>
 

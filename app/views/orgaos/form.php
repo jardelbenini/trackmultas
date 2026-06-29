@@ -16,6 +16,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="codigo" class="form-label">Código <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="codigo" name="codigo" value="<?php echo isset($orgao['codigo']) ? htmlspecialchars($orgao['codigo']) : ''; ?>" required>
+                                <div class="invalid-feedback" id="codigo-feedback">Já existe um órgão com este código.</div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="sigla" class="form-label">Sigla</label>
@@ -41,3 +42,40 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const codigoInput = document.getElementById('codigo');
+    const saveBtn = document.querySelector('button[type="submit"]');
+    const currentId = '<?php echo isset($orgao['id']) ? $orgao['id'] : ''; ?>';
+    
+    if(codigoInput) {
+        codigoInput.addEventListener('blur', function() {
+            const codigo = this.value.trim();
+            if(!codigo) {
+                this.classList.remove('is-invalid');
+                saveBtn.disabled = false;
+                return;
+            }
+            
+            let url = '<?php echo BASE_URL; ?>index.php?controller=orgaos&action=check_codigo&codigo=' + encodeURIComponent(codigo);
+            if(currentId) {
+                url += '&id=' + encodeURIComponent(currentId);
+            }
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.exists) {
+                        codigoInput.classList.add('is-invalid');
+                        saveBtn.disabled = true;
+                    } else {
+                        codigoInput.classList.remove('is-invalid');
+                        saveBtn.disabled = false;
+                    }
+                })
+                .catch(err => console.error('Erro ao checar código:', err));
+        });
+    }
+});
+</script>

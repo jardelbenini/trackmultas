@@ -23,6 +23,7 @@
                             <div class="col-md-5">
                                 <label for="cnpj" class="form-label">CNPJ</label>
                                 <input type="text" class="form-control" id="cnpj" name="cnpj" value="<?php echo isset($empresa['cnpj']) ? htmlspecialchars($empresa['cnpj']) : ''; ?>" placeholder="00.000.000/0000-00" oninput="maskCNPJ(this)">
+                                <div class="invalid-feedback" id="cnpj-feedback">Este CNPJ já está cadastrado.</div>
                             </div>
                         </div>
                         
@@ -62,4 +63,39 @@ function maskCNPJ(input) {
 
     input.value = v;
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const cnpjInput = document.getElementById('cnpj');
+    const saveBtn = document.querySelector('button[type="submit"]');
+    const currentId = '<?php echo isset($empresa['id']) ? $empresa['id'] : ''; ?>';
+    
+    if(cnpjInput) {
+        cnpjInput.addEventListener('blur', function() {
+            const cnpj = this.value.trim();
+            if(cnpj.length < 18) { // mask has 18 chars (14 numbers + symbols)
+                this.classList.remove('is-invalid');
+                saveBtn.disabled = false;
+                return;
+            }
+            
+            let url = '<?php echo BASE_URL; ?>index.php?controller=empresas&action=check_cnpj&cnpj=' + encodeURIComponent(cnpj);
+            if(currentId) {
+                url += '&id=' + encodeURIComponent(currentId);
+            }
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.exists) {
+                        cnpjInput.classList.add('is-invalid');
+                        saveBtn.disabled = true;
+                    } else {
+                        cnpjInput.classList.remove('is-invalid');
+                        saveBtn.disabled = false;
+                    }
+                })
+                .catch(err => console.error('Erro ao checar CNPJ:', err));
+        });
+    }
+});
 </script>

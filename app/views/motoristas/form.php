@@ -30,6 +30,7 @@
                             <div class="col-md-6">
                                 <label for="matricula" class="form-label">Matrícula</label>
                                 <input type="text" class="form-control" id="matricula" name="matricula" value="<?php echo isset($motorista['matricula']) ? htmlspecialchars($motorista['matricula']) : ''; ?>">
+                                <div class="invalid-feedback" id="matricula-feedback">Esta matrícula já está cadastrada.</div>
                             </div>
                             
                             <div class="col-md-6">
@@ -40,6 +41,7 @@
                             <div class="col-md-6">
                                 <label for="cpf" class="form-label">CPF</label>
                                 <input type="text" class="form-control" id="cpf" name="cpf" value="<?php echo isset($motorista['cpf']) ? htmlspecialchars($motorista['cpf']) : ''; ?>" placeholder="000.000.000-00" oninput="maskCPF(this)">
+                                <div class="invalid-feedback" id="cpf-feedback">Este CPF já está cadastrado.</div>
                             </div>
                             
                             <div class="col-md-4">
@@ -106,4 +108,80 @@ function maskCPF(input) {
 
     input.value = v;
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const cpfInput = document.getElementById('cpf');
+    const matriculaInput = document.getElementById('matricula');
+    const saveBtn = document.querySelector('button[type="submit"]');
+    const currentId = '<?php echo isset($motorista['id']) ? $motorista['id'] : ''; ?>';
+    
+    // Objeto para rastrear estado de erro dos campos
+    const errors = { cpf: false, matricula: false };
+    
+    function updateSaveBtn() {
+        saveBtn.disabled = errors.cpf || errors.matricula;
+    }
+
+    if(cpfInput) {
+        cpfInput.addEventListener('blur', function() {
+            const cpf = this.value.trim();
+            if(cpf.length < 14) {
+                this.classList.remove('is-invalid');
+                errors.cpf = false;
+                updateSaveBtn();
+                return;
+            }
+            
+            let url = '<?php echo BASE_URL; ?>index.php?controller=motoristas&action=check_cpf&cpf=' + encodeURIComponent(cpf);
+            if(currentId) {
+                url += '&id=' + encodeURIComponent(currentId);
+            }
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.exists) {
+                        cpfInput.classList.add('is-invalid');
+                        errors.cpf = true;
+                    } else {
+                        cpfInput.classList.remove('is-invalid');
+                        errors.cpf = false;
+                    }
+                    updateSaveBtn();
+                })
+                .catch(err => console.error('Erro:', err));
+        });
+    }
+    
+    if(matriculaInput) {
+        matriculaInput.addEventListener('blur', function() {
+            const matricula = this.value.trim();
+            if(!matricula) {
+                this.classList.remove('is-invalid');
+                errors.matricula = false;
+                updateSaveBtn();
+                return;
+            }
+            
+            let url = '<?php echo BASE_URL; ?>index.php?controller=motoristas&action=check_matricula&matricula=' + encodeURIComponent(matricula);
+            if(currentId) {
+                url += '&id=' + encodeURIComponent(currentId);
+            }
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.exists) {
+                        matriculaInput.classList.add('is-invalid');
+                        errors.matricula = true;
+                    } else {
+                        matriculaInput.classList.remove('is-invalid');
+                        errors.matricula = false;
+                    }
+                    updateSaveBtn();
+                })
+                .catch(err => console.error('Erro:', err));
+        });
+    }
+});
 </script>
