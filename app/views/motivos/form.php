@@ -43,11 +43,11 @@
                                 <label for="gravidade" class="form-label">Gravidade</label>
                                 <select class="form-select" id="gravidade" name="gravidade" onchange="autoFillValorBase()">
                                     <option value="">Selecione...</option>
-                                    <option value="Leve" <?php echo (isset($motivo['gravidade']) && $motivo['gravidade'] === 'Leve') ? 'selected' : ''; ?>>Leve</option>
-                                    <option value="Média" <?php echo (isset($motivo['gravidade']) && $motivo['gravidade'] === 'Média') ? 'selected' : ''; ?>>Média</option>
-                                    <option value="Grave" <?php echo (isset($motivo['gravidade']) && $motivo['gravidade'] === 'Grave') ? 'selected' : ''; ?>>Grave</option>
-                                    <option value="Gravíssima" <?php echo (isset($motivo['gravidade']) && $motivo['gravidade'] === 'Gravíssima') ? 'selected' : ''; ?>>Gravíssima</option>
-                                    <option value="Sem pontuação" <?php echo (isset($motivo['gravidade']) && $motivo['gravidade'] === 'Sem pontuação') ? 'selected' : ''; ?>>Sem pontuação</option>
+                                    <option value="LEVE" <?php echo (isset($motivo['gravidade']) && $motivo['gravidade'] === 'LEVE') ? 'selected' : ''; ?>>LEVE</option>
+                                    <option value="MÉDIA" <?php echo (isset($motivo['gravidade']) && $motivo['gravidade'] === 'MÉDIA') ? 'selected' : ''; ?>>MÉDIA</option>
+                                    <option value="GRAVE" <?php echo (isset($motivo['gravidade']) && $motivo['gravidade'] === 'GRAVE') ? 'selected' : ''; ?>>GRAVE</option>
+                                    <option value="GRAVÍSSIMA" <?php echo (isset($motivo['gravidade']) && $motivo['gravidade'] === 'GRAVÍSSIMA') ? 'selected' : ''; ?>>GRAVÍSSIMA</option>
+                                    <option value="SEM PONTUAÇÃO" <?php echo (isset($motivo['gravidade']) && $motivo['gravidade'] === 'SEM PONTUAÇÃO') ? 'selected' : ''; ?>>SEM PONTUAÇÃO</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
@@ -108,19 +108,19 @@
                     <script>
                         // Valores base por gravidade atualizados (2024)
                         const valoresGravidade = {
-                            'Leve': 88.38,
-                            'Média': 130.16,
-                            'Grave': 195.23,
-                            'Gravíssima': 293.47,
-                            'Sem pontuação': 0.00
+                            'LEVE': 88.38,
+                            'MÉDIA': 130.16,
+                            'GRAVE': 195.23,
+                            'GRAVÍSSIMA': 293.47,
+                            'SEM PONTUAÇÃO': 0.00
                         };
 
                         const pontosGravidade = {
-                            'Leve': '3',
-                            'Média': '4',
-                            'Grave': '5',
-                            'Gravíssima': '7',
-                            'Sem pontuação': '0'
+                            'LEVE': '3',
+                            'MÉDIA': '4',
+                            'GRAVE': '5',
+                            'GRAVÍSSIMA': '7',
+                            'SEM PONTUAÇÃO': '0'
                         };
 
                         function parseMoney(val) {

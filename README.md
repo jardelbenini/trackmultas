@@ -145,6 +145,28 @@ O projeto utiliza **MySQL** (ou MariaDB) como banco de dados relacional. O scrip
 
 ---
 
+## 🔐 Etapa 6 - Sistema de Login
+
+Nesta etapa foi implementado um sistema simples de autenticação no TrackMultas.
+
+### Funcionalidades implementadas:
+- Tela de login
+- Autenticação com e-mail e senha
+- Senha armazenada com `password_hash`
+- Verificação de senha com `password_verify`
+- Controle de sessão
+- Proteção das páginas internas
+- Logout do sistema
+- Criação automática de usuário administrador padrão
+
+### Usuário padrão:
+- **E-mail:** admin@trackmultas.com
+- **Senha:** 123456
+
+> **Observação:** A senha não é salva em texto puro no banco de dados. Ela é armazenada em formato criptografado/hash usando `password_hash` do PHP.
+
+---
+
 ## 📄 Licença
 
 Este projeto é de uso interno e educacional.

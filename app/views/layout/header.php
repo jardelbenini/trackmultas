@@ -34,6 +34,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
+                <?php if (isset($_SESSION['usuario_id'])): ?>
                 <ul class="navbar-nav ms-auto">
                     <?php 
                         $active = isset($_GET['controller']) ? $_GET['controller'] : 'home'; 
@@ -44,7 +45,7 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle <?php echo in_array($active, ['empresas', 'motoristas', 'setores', 'veiculos']) ? 'active' : ''; ?>"
+                        <a class="nav-link dropdown-toggle <?php echo in_array($active, ['empresas', 'motoristas', 'setores', 'veiculos', 'tipos_veiculos']) ? 'active' : ''; ?>"
                            href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-folder me-1"></i>Cadastros
                         </a>
@@ -71,6 +72,12 @@
                                 <a class="dropdown-item <?php echo $active === 'veiculos' ? 'active' : ''; ?>"
                                    href="<?php echo BASE_URL; ?>index.php?controller=veiculos&action=index">
                                     <i class="bi bi-truck me-2"></i>Veículos
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item <?php echo $active === 'tipos_veiculos' ? 'active' : ''; ?>"
+                                   href="<?php echo BASE_URL; ?>index.php?controller=tipos_veiculos&action=index">
+                                    <i class="bi bi-car-front me-2"></i>Tipos de Veículos
                                 </a>
                             </li>
                         </ul>
@@ -139,6 +146,21 @@
                         </a>
                     </li>
                 </ul>
+                <ul class="navbar-nav ms-3">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle me-1"></i><?php echo htmlspecialchars($_SESSION['usuario_nome']); ?>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item text-danger" href="<?php echo BASE_URL; ?>index.php?controller=auth&action=logout">
+                                    <i class="bi bi-box-arrow-right me-2"></i>Sair
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <?php endif; ?>
             </div>
         </div>
     </nav>

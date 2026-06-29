@@ -2,7 +2,7 @@
 session_start();
 
 /**
- * TrackMultas - Roteador Principal (Etapa 3)
+ * TrackMultas - Roteador Principal
  */
 
 // Carrega configurações
@@ -11,17 +11,24 @@ require_once __DIR__ . '/../config/config.php';
 // Carrega os models auxiliares (Database é a base)
 require_once __DIR__ . '/../app/models/Database.php';
 
+// Carrega o model de Usuario e cria o admin padrão automaticamente
+require_once __DIR__ . '/../app/models/Usuario.php';
+$usuarioModel = new Usuario();
+$usuarioModel->criarUsuarioInicial();
+
 // Obtém o controller e a action da URL
 $controllerParam = isset($_GET['controller']) ? $_GET['controller'] : 'home';
 $actionParam = isset($_GET['action']) ? $_GET['action'] : 'index';
 
 // Mapeamento de controllers permitidos
 $allowedControllers = [
+    'auth'              => 'AuthController',
     'home'              => 'HomeController',
     'empresas'          => 'EmpresaController',
     'motoristas'        => 'MotoristaController',
     'setores'           => 'SetorController',
     'veiculos'          => 'VeiculoController',
+    'tipos_veiculos'    => 'TipoVeiculoController',
     'multas'            => 'MultaController',
     'orgaos'            => 'OrgaoController',
     'motivos_infracoes' => 'MotivoInfracaoController',
@@ -32,7 +39,15 @@ $allowedControllers = [
 ];
 
 // Ações permitidas
-$allowedActions = ['index', 'create', 'store', 'show', 'edit', 'update', 'delete', 'check_codigo', 'get_details'];
+$allowedActions = ['index', 'create', 'store', 'show', 'edit', 'update', 'delete', 'check_codigo', 'get_details', 'login', 'autenticar', 'logout'];
+
+// Proteção: se NÃO for o controller auth, exige login
+if ($controllerParam !== 'auth') {
+    if (!isset($_SESSION['usuario_id'])) {
+        header('Location: ' . BASE_URL . 'index.php?controller=auth&action=login');
+        exit;
+    }
+}
 
 if (array_key_exists($controllerParam, $allowedControllers)) {
     $controllerName = $allowedControllers[$controllerParam];
