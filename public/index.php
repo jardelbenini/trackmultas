@@ -39,7 +39,11 @@ $allowedControllers = [
 ];
 
 // Ações permitidas
-$allowedActions = ['index', 'create', 'store', 'show', 'edit', 'update', 'delete', 'check_codigo', 'get_details', 'login', 'autenticar', 'logout'];
+$allowedActions = [
+    'index', 'create', 'store', 'show', 'edit', 'update', 'delete', 
+    'check_codigo', 'check_cnpj', 'check_cpf', 'check_matricula', 'check_placa', 'check_renavam', 
+    'get_details', 'login', 'autenticar', 'logout'
+];
 
 // Proteção: se NÃO for o controller auth, exige login
 if ($controllerParam !== 'auth') {
